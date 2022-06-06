@@ -1,6 +1,6 @@
 package com.example.tmdb.models
 
-data class Result(
+data class MovieItem(
     val adult: Boolean,
     val backdrop_path: String,
     val genre_ids: List<Int>,
