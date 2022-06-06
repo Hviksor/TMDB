@@ -6,15 +6,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.tmdb.R
+import com.example.tmdb.databinding.FragmentDetailBinding
+import com.example.tmdb.databinding.FragmentMainBinding
 
 class DetailFragment : Fragment() {
+    private var mbinding: FragmentDetailBinding? = null
+    private val binding get() = mbinding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+    ): View {
+        mbinding = FragmentDetailBinding.inflate(layoutInflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        inite()
+    }
+
+    private fun inite() {
+        TODO("Not yet implemented")
     }
 
 }
