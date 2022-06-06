@@ -15,6 +15,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
+    <ImageView
+        android:id="@+id/img_detail_favorite"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/img_detail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"

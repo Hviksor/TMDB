@@ -9,7 +9,7 @@ import com.example.tmdb.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private var mbinding: ActivityMainBinding? = null
     private val binding get() = mbinding!!
-    private lateinit var navController: NavController
+     lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mbinding = ActivityMainBinding.inflate(layoutInflater)

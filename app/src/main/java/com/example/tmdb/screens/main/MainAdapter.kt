@@ -3,8 +3,6 @@ package com.example.tmdb.screens.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tmdb.BASE_IMG_URL
@@ -13,7 +11,7 @@ import com.example.tmdb.databinding.ItemLayoutBinding
 import com.example.tmdb.models.MovieItem
 import com.squareup.picasso.Picasso
 
-class MainAdapter : ListAdapter<MovieItem, MainAdapter.MainViewHolder>(DiffUtilItemCallBack()) {
+class MainAdapter : ListAdapter<MovieItem, MainAdapter.MainViewHolder>(DiffUtilItemCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {

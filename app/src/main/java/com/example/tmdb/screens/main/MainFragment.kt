@@ -2,14 +2,13 @@ package com.example.tmdb.screens.main
 
 import android.content.Context
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tmdb.MAIN
 import com.example.tmdb.R
 import com.example.tmdb.databinding.FragmentMainBinding
 import kotlinx.coroutines.launch
@@ -26,6 +25,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         mbinding = FragmentMainBinding.inflate(layoutInflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -43,7 +43,6 @@ class MainFragment : Fragment() {
         rcView = binding.rcViewMain
         adapter = MainAdapter()
         rcView.adapter = adapter
-//        rcView.layoutManager = LinearLayoutManager(ctx)
         viewModel = ViewModelProvider(this)[MainFragmentViewModel::class.java]
         viewModel.viewModelScope.launch {
             viewModel.getMoviesModel()
@@ -57,6 +56,24 @@ class MainFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         mbinding = null
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.item_favorite -> {
+
+                MAIN.navController.navigate(R.id.action_mainFragment_to_favoriteFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+
+        }
+
     }
 
 }
