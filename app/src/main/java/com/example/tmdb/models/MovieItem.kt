@@ -9,8 +9,7 @@ import java.io.Serializable
 data class MovieItem(
     val adult: Boolean,
     val backdrop_path: String,
-    val genre_ids: List<Int>,
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     val id: Int,
     val original_language: String,
     val original_title: String,
