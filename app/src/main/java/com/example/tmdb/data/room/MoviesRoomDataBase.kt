@@ -1,4 +1,32 @@
 package com.example.tmdb.data.room
 
-abstract class MoviesRoomDataBase {
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.example.tmdb.data.room.dao.MoviesDao
+import com.example.tmdb.models.MovieItem
+
+@Database(entities = [MovieItem::class], version = 1)
+abstract class MoviesRoomDataBase : RoomDatabase() {
+    abstract fun getDao(): MoviesDao
+
+
+    companion object {
+        private var database: MoviesRoomDataBase? = null
+        private fun getInstanceDb(context: Context): MoviesRoomDataBase {
+            return if (database == null) {
+                database = Room.databaseBuilder(
+                    context,
+                    MoviesRoomDataBase::class.java,
+                    "db"
+                ).build()
+                database as MoviesRoomDataBase
+            } else {
+                database as MoviesRoomDataBase
+            }
+        }
+
+    }
+
 }

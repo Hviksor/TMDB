@@ -18,6 +18,7 @@ class DetailFragment : Fragment() {
     private var mbinding: FragmentDetailBinding? = null
     private val binding get() = mbinding!!
     private var currentMovie: MovieItem? = null
+    private var isFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,11 +38,21 @@ class DetailFragment : Fragment() {
         binding.tvDate.text = currentMovie?.release_date
         binding.tvTitle.text = currentMovie?.title
         binding.tvDescription.text = currentMovie?.overview
+        binding.imgDetailFavorite.setOnClickListener {
+            isFavorite = if (!isFavorite) {
+                binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+                true
+            } else {
+                binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                false
+            }
+        }
         Picasso.get()
             .load(BASE_IMG_URL + currentMovie?.poster_path)
             .centerCrop()
             .resize(300, 300)
             .into(binding.imgDetail)
+
     }
 
     private fun parsFields() {
