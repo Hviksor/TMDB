@@ -6,8 +6,8 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tmdb.EXTRA_MOVIE_INFO
 import com.example.tmdb.MAIN
 import com.example.tmdb.R
 import com.example.tmdb.databinding.FragmentMainBinding
@@ -44,8 +44,9 @@ class MainFragment : Fragment() {
         adapter = MainAdapter()
         rcView.adapter = adapter
         viewModel = ViewModelProvider(this)[MainFragmentViewModel::class.java]
+        viewModel.initDatabase()
         viewModel.viewModelScope.launch {
-            viewModel.getMoviesModel()
+            viewModel.getMoviesRetrofit()
         }
         viewModel.moviesInformation.observe(viewLifecycleOwner) {
             adapter.submitList(it.body()?.results)
@@ -78,11 +79,9 @@ class MainFragment : Fragment() {
     companion object {
         fun clickMovie(model: MovieItem) {
             val bundle = Bundle()
-            bundle.putSerializable(EXTRA_MOVIE, model)
+            bundle.putSerializable(EXTRA_MOVIE_INFO, model)
             MAIN.navController.navigate(R.id.action_mainFragment_to_detailFragment, bundle)
         }
-
-        const val EXTRA_MOVIE = "extra_movie"
 
     }
 
