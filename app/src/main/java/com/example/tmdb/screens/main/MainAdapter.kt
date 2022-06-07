@@ -11,7 +11,7 @@ import com.example.tmdb.databinding.ItemLayoutBinding
 import com.example.tmdb.models.MovieItem
 import com.squareup.picasso.Picasso
 
-class MainAdapter : ListAdapter<MovieItem, MainAdapter.MainViewHolder>(DiffUtilItemCallback()) {
+class MainAdapter : ListAdapter<MovieItem, MainAdapter.MainViewHolder>(DiffUtilItemCallBack()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -38,5 +38,17 @@ class MainAdapter : ListAdapter<MovieItem, MainAdapter.MainViewHolder>(DiffUtilI
         val date = binding.itemDate
         val poster = binding.itemImage
 
+    }
+
+    override fun onViewAttachedToWindow(holder: MainViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        holder.itemView.setOnClickListener {
+            MainFragment.clickMovie(getItem(holder.adapterPosition))
+        }
+    }
+
+    override fun onViewDetachedFromWindow(holder: MainViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.setOnClickListener(null)
     }
 }

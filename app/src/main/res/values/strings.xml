@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">TMDB</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favorite_icon">favorite_icon</string>
+    <string name="movie_poster">movie_poster</string>
+    <string name="title">Title</string>
+    <string name="_02_03_2019">02.03.2019</string>
+    <string name="description">Description</string>
 </resources>

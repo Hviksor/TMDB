@@ -1,5 +1,7 @@
 package com.example.tmdb.models
 
+import java.io.Serializable
+
 data class MovieItem(
     val adult: Boolean,
     val backdrop_path: String,
@@ -15,4 +17,4 @@ data class MovieItem(
     val video: Boolean,
     val vote_average: Double,
     val vote_count: Int
-)
+) : Serializable

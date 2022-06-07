@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tmdb.MAIN
 import com.example.tmdb.R
 import com.example.tmdb.databinding.FragmentMainBinding
+import com.example.tmdb.models.MovieItem
 import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
@@ -31,7 +32,6 @@ class MainFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val ctx = context
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,13 +66,23 @@ class MainFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.item_favorite -> {
-
                 MAIN.navController.navigate(R.id.action_mainFragment_to_favoriteFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
 
         }
+
+    }
+
+    companion object {
+        fun clickMovie(model: MovieItem) {
+            val bundle = Bundle()
+            bundle.putSerializable(EXTRA_MOVIE, model)
+            MAIN.navController.navigate(R.id.action_mainFragment_to_detailFragment, bundle)
+        }
+
+        const val EXTRA_MOVIE = "extra_movie"
 
     }
 
