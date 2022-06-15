@@ -5,7 +5,7 @@ import com.example.tmdb.data.retrofit.api.RetrofitInstance
 import com.example.tmdb.domain.model.TMDBAnswer
 import retrofit2.Response
 
-class Repository {
+class ApiRepository {
     suspend fun getInformationFromTMDB(): Response<TMDBAnswer> {
         return RetrofitInstance.api.getInformationFromTMDB()
     }

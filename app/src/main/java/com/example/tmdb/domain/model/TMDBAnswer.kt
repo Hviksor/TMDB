@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class TMDBAnswer(
     @SerializedName("results")
     @Expose
-    private val results: List<MovieModel>? = null
+    val results: List<MovieModel>? = null
 
 
 )
