@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "MovieTable")
+@Entity(tableName = "movie_table")
 data class MovieModel(
 
     @SerializedName("adult")
