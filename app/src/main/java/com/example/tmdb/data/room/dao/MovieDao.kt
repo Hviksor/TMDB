@@ -7,12 +7,14 @@ import com.example.tmdb.domain.model.MovieModel
 
 @Dao
 interface MovieDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(movieModel: MovieModel)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(movieModel: MovieModel)
 
     @Delete
-    suspend fun delete(movieModel: MovieModel)
+    fun delete(movieModel: MovieModel)
 
     @Query("SELECT * from movie_table")
+    @JvmSuppressWildcards
     fun getFavoriteMovieList(): LiveData<List<MovieModel>>
 }

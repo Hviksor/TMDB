@@ -1,6 +1,7 @@
 package com.example.tmdb.presentor.screens.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -8,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tmdb.R
 import com.example.tmdb.databinding.FragmentMainBinding
+import com.example.tmdb.presentor.MainViewModel
 import com.example.tmdb.presentor.MovieAdapter
 import kotlinx.coroutines.launch
 
@@ -42,6 +44,7 @@ class MainFragment : Fragment() {
         }
 
         viewModel.moviesInformation.observe(viewLifecycleOwner) {
+            Log.e("koko", it.body()?.results.toString())
             movieAdapter.submitList(it.body()?.results)
         }
 

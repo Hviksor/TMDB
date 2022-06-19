@@ -9,14 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tmdb.databinding.FragmentFavoriteBinding
 import com.example.tmdb.presentor.MovieAdapter
-import com.example.tmdb.presentor.screens.main.MainViewModel
 
 class FavoriteFragment : Fragment() {
     private lateinit var mBinding: FragmentFavoriteBinding
     private val binding get() = mBinding!!
     private lateinit var rcView: RecyclerView
     private lateinit var movieAdapter: MovieAdapter
-    private lateinit var viewModel: FavoriteViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,7 +26,6 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[FavoriteViewModel::class.java]
         inite()
     }
 
