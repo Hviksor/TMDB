@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tmdb.databinding.FragmentDetailBinding
-import com.example.tmdb.domain.model.MovieModel
 import com.example.tmdb.domain.model.TMDBInfo
 import com.example.tmdb.presentor.MainViewModel
 import com.squareup.picasso.Picasso
@@ -20,6 +19,10 @@ class DetailFragment : Fragment() {
     private lateinit var mBinding: FragmentDetailBinding
     private val binding get() = mBinding
     private lateinit var viewModel: MainViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +39,7 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         parseFields()
+
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         inite()
 
