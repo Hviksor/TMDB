@@ -11,6 +11,7 @@ import com.example.tmdb.R
 import com.example.tmdb.databinding.FragmentMainBinding
 import com.example.tmdb.presentor.MainViewModel
 import com.example.tmdb.presentor.MovieAdapter
+import com.example.tmdb.presentor.screens.detail.DetailFragment
 import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
@@ -39,15 +40,29 @@ class MainFragment : Fragment() {
         rcView = binding.rcView
         movieAdapter = MovieAdapter()
         rcView.adapter = movieAdapter
+        onMovieClickListener()
         viewModel.viewModelScope.launch {
-            viewModel.getMoviesInfo()
+            viewModel.getMovieListFromTMDB()
         }
-
-        viewModel.moviesInformation.observe(viewLifecycleOwner) {
-            Log.e("koko", it.body()?.results.toString())
+        viewModel.movieInformationFromTMDB.observe(viewLifecycleOwner) {
+            Log.e("movieInformationFromTMDB", it.body()?.results.toString())
             movieAdapter.submitList(it.body()?.results)
         }
 
+
+    }
+
+    private fun onMovieClickListener() {
+        movieAdapter.onClickMovie = {
+
+            val fragment = DetailFragment.getDetailFragment(it.id)
+
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

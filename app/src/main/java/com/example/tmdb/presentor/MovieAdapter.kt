@@ -12,6 +12,7 @@ import com.example.tmdb.domain.model.TMDBInfo
 import com.squareup.picasso.Picasso
 
 class MovieAdapter : ListAdapter<MovieModel, MovieAdapter.MainViewHolder>(DiffUtilItemCallBack()) {
+    var onClickMovie: ((MovieModel) -> Unit)? = null
 
     class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemLayoutBinding.bind(itemView)
@@ -31,6 +32,10 @@ class MovieAdapter : ListAdapter<MovieModel, MovieAdapter.MainViewHolder>(DiffUt
             .resize(300, 300)
             .centerCrop()
             .into(holder.binding.itemImage)
+
+        holder.itemView.setOnClickListener {
+            onClickMovie?.invoke(item)
+        }
 
     }
 }

@@ -5,7 +5,7 @@ import com.example.tmdb.data.MovieRepositoryImpl
 import com.example.tmdb.data.room.dao.MovieDao
 import com.example.tmdb.domain.model.MovieModel
 
-class GetMovieFavoriteListUseCase(private val repo: MovieRepositoryImpl) {
+class GetFavoriteMovieListUseCase(private val repo: MovieRepositoryImpl) {
     suspend fun getMovieFavoriteList(db: MovieDao) {
         repo.getMovieFavoriteList(db)
     }
