@@ -15,7 +15,7 @@ object MovieRepositoryImpl : MovieRepository {
     }
 
     override suspend fun deleteFavoriteMovie(movieModel: MovieModel, db: MovieDao) {
-        TODO("Not yet implemented")
+        db.delete(movieModel)
     }
 
     override suspend fun getMovie(movieIdd: Int): Response<MovieModel> {
@@ -23,7 +23,7 @@ object MovieRepositoryImpl : MovieRepository {
     }
 
     override suspend fun getMovieFavoriteList(db: MovieDao): LiveData<List<MovieModel>> {
-        TODO("Not yet implemented")
+        return db.getFavoriteMovieList()
     }
 
     override suspend fun getMovieListFromTMDB(): Response<TMDBInfo> {

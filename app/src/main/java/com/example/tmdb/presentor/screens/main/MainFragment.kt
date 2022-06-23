@@ -12,6 +12,7 @@ import com.example.tmdb.databinding.FragmentMainBinding
 import com.example.tmdb.presentor.MainViewModel
 import com.example.tmdb.presentor.MovieAdapter
 import com.example.tmdb.presentor.screens.detail.DetailFragment
+import com.example.tmdb.presentor.screens.favorite.FavoriteFragment
 import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
@@ -59,8 +60,8 @@ class MainFragment : Fragment() {
 
             requireActivity().supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
+                .replace(R.id.fragment_container, fragment)
                 .commit()
         }
     }
@@ -72,10 +73,21 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        val fragment = FavoriteFragment()
         return when (item.itemId) {
-            R.id.favorite -> TODO()
+
+            R.id.favorite -> {
+                requireActivity().supportFragmentManager
+                    .beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.fragment_container, fragment)
+                    .commit()
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+
 
     }
 
