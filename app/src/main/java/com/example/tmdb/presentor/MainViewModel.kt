@@ -1,6 +1,7 @@
 package com.example.tmdb.presentor
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,6 +27,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val movieInformationFromTMDB: LiveData<Response<TMDBInfo>>
         get() = _movieInformationFromTMDB
 
+    private val _movieFavoriteList = MutableLiveData<List<MovieModel>>()
+    val movieFavoriteList: LiveData<List<MovieModel>>
+        get() = _movieFavoriteList
+
     private val _singleMovieInformation = MutableLiveData<MovieModel>()
     val singleMovieInformation: LiveData<MovieModel>
         get() = _singleMovieInformation
@@ -35,12 +40,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         addFavoriteUseCase.addFavoriteMovie(movieModel, db)
     }
 
-    suspend fun deleteFavoriteMovie() {
-        TODO()
+    suspend fun deleteFavoriteMovie(movieModel: MovieModel) {
+        deleteFavoriteUseCase.deleteFavoriteMovie(movieModel, db)
     }
 
     suspend fun getFavoriteMovieList() {
-        TODO()
+        val list = getFavoriteMovieList.getMovieFavoriteList(db)
+        Log.e("singleMovieInformation", list.value.toString())
+        _movieFavoriteList.value = list.value
     }
 
     suspend fun getMovieListFromTMDB() {
@@ -51,8 +58,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val item = getMovieUseCase.getMovie(movieId)
         _singleMovieInformation.value = item.body()
     }
-
-
 
 
 }

@@ -63,5 +63,9 @@ data class MovieModel(
 
     @SerializedName("favorite_movie")
     @Expose
-    var favoriteMovie: Int? = null
-)
+    var favoriteMovie: Int? = DEFAULT_NON_FAVORITE
+) {
+    companion object {
+        const val DEFAULT_NON_FAVORITE = -1
+    }
+}

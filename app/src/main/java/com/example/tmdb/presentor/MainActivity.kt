@@ -12,18 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         APP = this
-        val toolbar = findViewById<Toolbar>(R.id.tool_bar)
-        setSupportActionBar(toolbar)
-
-        supportActionBar?.apply {
-            title = "Toolbar Back Button Example"
-
-            // show back button on toolbar
-            // on back button press, it will navigate to parent activity
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-        }
-
+        supportActionBar?.title = "Admin"
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, MainFragment())

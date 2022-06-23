@@ -3,13 +3,17 @@ package com.example.tmdb.presentor.screens.detail
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.tmdb.R
 import com.example.tmdb.databinding.FragmentDetailBinding
+import com.example.tmdb.domain.model.MovieModel
 import com.example.tmdb.domain.model.TMDBInfo
+import com.example.tmdb.presentor.MainActivity
 import com.example.tmdb.presentor.MainViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
@@ -21,7 +25,7 @@ class DetailFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onCreateView(
@@ -38,6 +42,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         parseFields()
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
@@ -69,10 +74,25 @@ class DetailFragment : Fragment() {
             binding.tvDate.text = it.releaseDate
             Picasso.get().load(TMDBInfo.BASE_IMG_URL + it.posterPath)
                 .centerCrop()
-                .resize(300,300)
+                .resize(300, 300)
                 .into(binding.imgDetail)
 
         }
+        viewModel.viewModelScope.launch {
+            viewModel.getFavoriteMovieList()
+        }
+        viewModel.movieFavoriteList.observe(viewLifecycleOwner) {
+            Log.e("movieFavoriteList", it.get(movieId).favoriteMovie.toString())
+        }
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            Log.e("onOptionsItemSelected", "scasdasd")
+            activity?.supportFragmentManager?.popBackStack()
+        }
+        return true
 
     }
 

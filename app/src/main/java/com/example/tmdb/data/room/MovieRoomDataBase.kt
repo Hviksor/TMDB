@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.tmdb.data.room.dao.MovieDao
 import com.example.tmdb.domain.model.MovieModel
 
-@Database(entities = [MovieModel::class], version = 2)
+@Database(entities = [MovieModel::class], version = 3)
 abstract class MovieRoomDataBase : RoomDatabase() {
     abstract fun getDao(): MovieDao
 
