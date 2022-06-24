@@ -20,6 +20,8 @@ import kotlinx.coroutines.launch
 
 class DetailFragment : Fragment() {
     private var movieId: Int = DEFAULT_MOVIE_ID
+    private var isFavorite = false
+    private lateinit var tempMovieModel: MovieModel
     private lateinit var mBinding: FragmentDetailBinding
     private val binding get() = mBinding
     private lateinit var viewModel: MainViewModel
@@ -56,19 +58,35 @@ class DetailFragment : Fragment() {
             throw RuntimeException("Movie ID is absent")
         }
         val id = args.getInt(EXTRA_MOVIE_ID, DEFAULT_MOVIE_ID)
-        Log.e("movieId", id.toString())
-        if (id > 0) {
+               if (id > 0) {
             movieId = id
         }
     }
 
     private fun inite() {
+
+        viewModel.viewModelScope.launch {
+            viewModel.getFavoriteMovieList()
+        }
+        viewModel.movieFavoriteList.observe(viewLifecycleOwner) {
+            if (it == null) {
+                binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+            } else {
+                if (it[movieId].favoriteMovie != MovieModel.DEFAULT_NON_FAVORITE) {
+                    binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    isFavorite = true
+                }
+
+            }
+        }
+
         viewModel.viewModelScope.launch {
 
             viewModel.getMovie(movieId)
         }
         viewModel.singleMovieInformation.observe(viewLifecycleOwner) {
-            Log.e("singleMovieInformation", it.title.toString())
+
+            tempMovieModel = it
             binding.tvTitle.text = it.title
             binding.tvDescription.text = it.overview
             binding.tvDate.text = it.releaseDate
@@ -78,13 +96,23 @@ class DetailFragment : Fragment() {
                 .into(binding.imgDetail)
 
         }
-        viewModel.viewModelScope.launch {
-            viewModel.getFavoriteMovieList()
+        binding.imgDetailFavorite.setOnClickListener {
+            if (isFavorite) {
+                Log.e("isFavorite",isFavorite.toString())
+                binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                viewModel.viewModelScope.launch {
+                    viewModel.addFavoriteMovie(tempMovieModel)
+                }
+                isFavorite = false
+            } else {
+                Log.e("isFavorite",isFavorite.toString())
+                binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+                viewModel.viewModelScope.launch {
+                    viewModel.deleteFavoriteMovie(tempMovieModel)
+                }
+                isFavorite = true
+            }
         }
-        viewModel.movieFavoriteList.observe(viewLifecycleOwner) {
-            Log.e("movieFavoriteList", it.get(movieId).favoriteMovie.toString())
-        }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
