@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tmdb.BASE_IMG_URL
 import com.example.tmdb.R
 import com.example.tmdb.databinding.ItemLayoutBinding
 import com.example.tmdb.domain.model.MovieModel
-import com.example.tmdb.domain.model.TMDBInfo
 import com.squareup.picasso.Picasso
 
 class MovieAdapter : ListAdapter<MovieModel, MovieAdapter.MainViewHolder>(DiffUtilItemCallBack()) {
@@ -28,7 +28,7 @@ class MovieAdapter : ListAdapter<MovieModel, MovieAdapter.MainViewHolder>(DiffUt
         holder.binding.itemDate.text = item.releaseDate.toString()
         holder.binding.itemTitle.text = item.title.toString()
         Picasso.get()
-            .load(TMDBInfo.BASE_IMG_URL + item.posterPath)
+            .load(BASE_IMG_URL + item.posterPath)
             .resize(300, 300)
             .centerCrop()
             .into(holder.binding.itemImage)

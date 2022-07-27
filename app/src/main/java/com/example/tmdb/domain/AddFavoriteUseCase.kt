@@ -1,11 +1,14 @@
 package com.example.tmdb.domain
 
+import android.util.Log
 import com.example.tmdb.data.MovieRepositoryImpl
 import com.example.tmdb.data.room.dao.MovieDao
+import com.example.tmdb.data.room.repository.RoomRepositoryImpl
 import com.example.tmdb.domain.model.MovieModel
 
 class AddFavoriteUseCase(private val repo: MovieRepositoryImpl) {
-    suspend fun addFavoriteMovie(movieModel: MovieModel, db: MovieDao) {
+    suspend fun addFavoriteMovie(movieModel: MovieModel, db: RoomRepositoryImpl) {
+
         repo.addFavoriteMovie(movieModel, db)
     }
 }

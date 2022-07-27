@@ -5,22 +5,33 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.tmdb.data.MovieRepositoryImpl
 import com.example.tmdb.data.room.MovieRoomDataBase
+import com.example.tmdb.data.room.repository.RoomRepositoryImpl
 import com.example.tmdb.domain.*
 import com.example.tmdb.domain.model.MovieModel
 import com.example.tmdb.domain.model.TMDBInfo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repo = MovieRepositoryImpl
-    private val db = MovieRoomDataBase.getInstanceDb(application).getDao()
+    private val dao = MovieRoomDataBase.getInstanceDb(application).getDao()
+    private val db = RoomRepositoryImpl(dao)
 
     private val addFavoriteUseCase = AddFavoriteUseCase(repo)
     private val deleteFavoriteUseCase = DeleteFavoriteUseCase(repo)
     private val getFavoriteMovieList = GetFavoriteMovieListUseCase(repo)
     private val getMovieListFromTMDB = GetMovieListFromTMDBUseCase(repo)
-    private val getMovieUseCase = GetMovieUseCase(repo)
+    private val getSingleMovieInformFromTMDBUseCase = GetSingleMovieInformFromTMDBUseCase(repo)
+
+    init {
+        viewModelScope.launch {
+            getMovieListFromTMDB()
+        }
+    }
 
 
     private val _movieInformationFromTMDB = MutableLiveData<Response<TMDBInfo>>()
@@ -31,32 +42,39 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val movieFavoriteList: LiveData<List<MovieModel>>
         get() = _movieFavoriteList
 
-    private val _singleMovieInformation = MutableLiveData<MovieModel>()
-    val singleMovieInformation: LiveData<MovieModel>
-        get() = _singleMovieInformation
+    private val _singleMovieInformFromTMDBUseCase = MutableLiveData<MovieModel>()
+    val singleMovieInformFromTMDBUseCase: LiveData<MovieModel>
+        get() = _singleMovieInformFromTMDBUseCase
 
 
     suspend fun addFavoriteMovie(movieModel: MovieModel) {
-        addFavoriteUseCase.addFavoriteMovie(movieModel, db)
+        viewModelScope.launch(Dispatchers.IO) {
+            addFavoriteUseCase.addFavoriteMovie(movieModel, db)
+        }
     }
 
     suspend fun deleteFavoriteMovie(movieModel: MovieModel) {
-        deleteFavoriteUseCase.deleteFavoriteMovie(movieModel, db)
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteFavoriteUseCase.deleteFavoriteMovie(movieModel, db)
+        }
     }
 
     suspend fun getFavoriteMovieList() {
-        val list = getFavoriteMovieList.getMovieFavoriteList(db)
-        Log.e("singleMovieInformation", list.value.toString())
-        _movieFavoriteList.value = list.value
+        viewModelScope.launch {
+            val list = getFavoriteMovieList.getMovieFavoriteList(db)
+            _movieFavoriteList.postValue(list.value)
+        }
+
     }
 
-    suspend fun getMovieListFromTMDB() {
-        _movieInformationFromTMDB.value = repo.getMovieListFromTMDB()
+    private suspend fun getMovieListFromTMDB() {
+        val isFavoriteMovie = getMovieListFromTMDB.getMovieListFromTMDB()
+        _movieInformationFromTMDB.value = isFavoriteMovie
     }
 
-    suspend fun getMovie(movieId: Int) {
-        val item = getMovieUseCase.getMovie(movieId)
-        _singleMovieInformation.value = item.body()
+    suspend fun getSingleMovieInformFromTMDBUseCase(movieId: Int) {
+        val item = getSingleMovieInformFromTMDBUseCase.getMovie(movieId)
+        _singleMovieInformFromTMDBUseCase.value = item.body()
     }
 
 

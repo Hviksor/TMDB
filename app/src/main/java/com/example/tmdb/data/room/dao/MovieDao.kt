@@ -17,4 +17,9 @@ interface MovieDao {
     @Query("SELECT * from movie_table")
     @JvmSuppressWildcards
     fun getFavoriteMovieList(): LiveData<List<MovieModel>>
+
+
+    @Query("SELECT EXISTS(SELECT 1 from movie_table WHERE id=:movieId)")
+    fun checkIsFavoriteMovie(movieId: Int): LiveData<Boolean>
+
 }

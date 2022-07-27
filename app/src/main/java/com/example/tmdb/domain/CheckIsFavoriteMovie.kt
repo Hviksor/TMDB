@@ -5,9 +5,10 @@ import com.example.tmdb.data.MovieRepositoryImpl
 import com.example.tmdb.data.room.dao.MovieDao
 import com.example.tmdb.data.room.repository.RoomRepositoryImpl
 import com.example.tmdb.domain.model.MovieModel
+import retrofit2.Response
 
-class GetFavoriteMovieListUseCase(private val repo: MovieRepositoryImpl) {
-    suspend fun getMovieFavoriteList(db: RoomRepositoryImpl): LiveData<List<MovieModel>> {
-      return  repo.getMovieFavoriteList(db)
+class CheckIsFavoriteMovie(private val repo: MovieRepositoryImpl) {
+    suspend fun checkIsFavoriteMovie(movieId: Int, db: RoomRepositoryImpl): LiveData<Boolean> {
+        return repo.checkIsFavoriteMovie(movieId, db)
     }
 }

@@ -1,7 +1,6 @@
 package com.example.tmdb.presentor.screens.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -34,30 +33,22 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        inite()
+        initFields()
+        initItemClickListener()
     }
 
-    private fun inite() {
+    private fun initFields() {
         rcView = binding.rcView
         movieAdapter = MovieAdapter()
         rcView.adapter = movieAdapter
-        onMovieClickListener()
-        viewModel.viewModelScope.launch {
-            viewModel.getMovieListFromTMDB()
-        }
         viewModel.movieInformationFromTMDB.observe(viewLifecycleOwner) {
-            Log.e("movieInformationFromTMDB", it.body()?.results.toString())
             movieAdapter.submitList(it.body()?.results)
         }
-
-
     }
 
-    private fun onMovieClickListener() {
+    private fun initItemClickListener() {
         movieAdapter.onClickMovie = {
-
             val fragment = DetailFragment.getDetailFragment(it.id)
-
             requireActivity().supportFragmentManager
                 .beginTransaction()
                 .addToBackStack(null)
@@ -73,7 +64,6 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         val fragment = FavoriteFragment()
         return when (item.itemId) {
 
