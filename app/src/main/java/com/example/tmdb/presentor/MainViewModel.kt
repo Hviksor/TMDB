@@ -18,7 +18,7 @@ import retrofit2.Response
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repo = MovieRepositoryImpl
-    private val dao = MovieRoomDataBase.getInstanceDb(application).getDao()
+    private val dao = MovieRoomDataBase.getInstanceDB(application).getMovieDao()
     private val db = RoomRepositoryImpl(dao)
 
     private val addFavoriteUseCase = AddFavoriteUseCase(repo)
@@ -47,6 +47,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         get() = _singleMovieInformFromTMDBUseCase
 
 
+
     suspend fun addFavoriteMovie(movieModel: MovieModel) {
         viewModelScope.launch(Dispatchers.IO) {
             addFavoriteUseCase.addFavoriteMovie(movieModel, db)
@@ -59,11 +60,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    suspend fun getFavoriteMovieList() {
-        viewModelScope.launch {
-            val list = getFavoriteMovieList.getMovieFavoriteList(db)
+    fun getFavoriteMovieList() {
+        viewModelScope.launch(Dispatchers.IO){
+            val list = db.getAllFavoriteMovies()
+            Log.e("allMovie", list.value?.size.toString())
             _movieFavoriteList.postValue(list.value)
         }
+
 
     }
 

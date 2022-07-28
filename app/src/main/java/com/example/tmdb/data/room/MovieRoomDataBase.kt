@@ -7,21 +7,22 @@ import androidx.room.RoomDatabase
 import com.example.tmdb.data.room.dao.MovieDao
 import com.example.tmdb.domain.model.MovieModel
 
-@Database(entities = [MovieModel::class], version = 6)
+@Database(entities = [MovieModel::class], version = 7)
 abstract class MovieRoomDataBase : RoomDatabase() {
-    abstract fun getDao(): MovieDao
+    abstract fun getMovieDao(): MovieDao
+
 
     companion object {
-        private var movieDb: MovieRoomDataBase? = null
+
+        private var movieDB: MovieRoomDataBase? = null
 
         @Synchronized
-        fun getInstanceDb(context: Context): MovieRoomDataBase {
-            return if (movieDb == null) {
-                movieDb = Room.databaseBuilder(context, MovieRoomDataBase::class.java, "db").build()
-                movieDb as MovieRoomDataBase
-
+        fun getInstanceDB(context: Context): MovieRoomDataBase {
+            return if (movieDB == null) {
+                movieDB = Room.databaseBuilder(context, MovieRoomDataBase::class.java, "db").build()
+                movieDB as MovieRoomDataBase
             } else {
-                movieDb as MovieRoomDataBase
+                movieDB as MovieRoomDataBase
             }
 
         }

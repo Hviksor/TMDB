@@ -1,10 +1,7 @@
 package com.example.tmdb.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.tmdb.data.retrofit.api.RetrofitInstance
-import com.example.tmdb.data.room.MovieRoomDataBase
-import com.example.tmdb.data.room.dao.MovieDao
 import com.example.tmdb.data.room.repository.RoomRepositoryImpl
 import com.example.tmdb.domain.MovieRepository
 import com.example.tmdb.domain.model.MovieModel
@@ -13,7 +10,6 @@ import retrofit2.Response
 
 object MovieRepositoryImpl : MovieRepository {
     override suspend fun addFavoriteMovie(movieModel: MovieModel, db: RoomRepositoryImpl) {
-
         db.addFavoriteMovie(movieModel) {}
     }
 
@@ -25,13 +21,14 @@ object MovieRepositoryImpl : MovieRepository {
         db.deleteFavoriteMovie(movieModel) {}
     }
 
-    override suspend fun getSingleMovieInformFromTMDBUseCase(movieIdd: Int): Response<MovieModel> {
-        return RetrofitInstance.api.getSingleMovieInfo(movieId = movieIdd)
+    override suspend fun getSingleMovieInformFromTMDBUseCase(movieId: Int): Response<MovieModel> {
+        return RetrofitInstance.api.getSingleMovieInfo(movieId = movieId)
     }
 
-    override suspend fun getMovieFavoriteList(db: RoomRepositoryImpl): LiveData<List<MovieModel>> {
-        return db.favoriteMovie
-    }
+//    override fun getMovieFavoriteList(db: RoomRepositoryImpl): LiveData<List<MovieModel>> {
+//
+//        return db.allMovie
+//    }
 
 //    override suspend fun getMovieFavoriteList(db: MovieDao): LiveData<List<MovieModel>> {
 //        return db.getFavoriteMovieList()

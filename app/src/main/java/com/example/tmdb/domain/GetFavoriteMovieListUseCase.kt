@@ -7,7 +7,7 @@ import com.example.tmdb.data.room.repository.RoomRepositoryImpl
 import com.example.tmdb.domain.model.MovieModel
 
 class GetFavoriteMovieListUseCase(private val repo: MovieRepositoryImpl) {
-    suspend fun getMovieFavoriteList(db: RoomRepositoryImpl): LiveData<List<MovieModel>> {
-      return  repo.getMovieFavoriteList(db)
-    }
+//    fun getMovieFavoriteList(db: RoomRepositoryImpl): LiveData<List<MovieModel>> {
+//        return repo.getMovieFavoriteList(db)
+//    }
 }

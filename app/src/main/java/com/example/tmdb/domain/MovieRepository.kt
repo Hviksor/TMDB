@@ -11,8 +11,8 @@ import retrofit2.Response
 interface MovieRepository {
     suspend fun deleteFavoriteMovie(movieModel: MovieModel, db: RoomRepositoryImpl)
     suspend fun getSingleMovieInformFromTMDBUseCase(movieId: Int): Response<MovieModel>
-    suspend fun getMovieFavoriteList(db: RoomRepositoryImpl): LiveData<List<MovieModel>>
+//    fun getMovieFavoriteList(db: RoomRepositoryImpl): LiveData<List<MovieModel>>
     suspend fun getMovieListFromTMDB(): Response<TMDBInfo>
     suspend fun addFavoriteMovie(movieModel: MovieModel, db: RoomRepositoryImpl)
-    suspend fun checkIsFavoriteMovie(movieId: Int,db: RoomRepositoryImpl): LiveData<Boolean>
+    suspend fun checkIsFavoriteMovie(movieId: Int, db: RoomRepositoryImpl): LiveData<Boolean>
 }

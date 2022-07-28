@@ -53,12 +53,7 @@ class FavoriteFragment : Fragment() {
         viewModel.viewModelScope.launch {
             viewModel.getFavoriteMovieList()
         }
-        viewModel.movieFavoriteList.observe(viewLifecycleOwner) {
-            it?.let {
-                Log.e("db", it.toString())
-                movieAdapter.submitList(it.asReversed())
-            }
-        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
