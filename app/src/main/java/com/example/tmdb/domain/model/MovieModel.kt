@@ -9,18 +9,12 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "movie_table")
 data class MovieModel(
 
-    @SerializedName("adult")
-    @Expose
-    var adult: Boolean? = null,
-
-    @SerializedName("backdrop_path")
-    @Expose
-    var backdropPath: String? = null,
 
     @PrimaryKey
     @SerializedName("id")
     @Expose
-    var id: Int? = null,
+    var id: Int,
+
     @SerializedName("original_language")
     @Expose
     var originalLanguage: String? = null,
@@ -33,9 +27,9 @@ data class MovieModel(
     @Expose
     var overview: String? = null,
 
-    @SerializedName("popularity")
-    @Expose
-    var popularity: Double? = null,
+//    @SerializedName("popularity")
+//    @Expose
+//    var popularity: Double? = null,
 
     @SerializedName("poster_path")
     @Expose

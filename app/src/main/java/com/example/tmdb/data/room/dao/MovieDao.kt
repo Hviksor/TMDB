@@ -7,19 +7,15 @@ import com.example.tmdb.domain.model.MovieModel
 
 @Dao
 interface MovieDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(movieModel: MovieModel)
 
     @Delete
     fun delete(movieModel: MovieModel)
 
+    @Query("SELECT * from movie_table")
+    fun getFavoriteMovieList(): LiveData<List<MovieModel>>
 
-    @Query("SELECT * FROM movie_table")
-    fun getAllMovie(): LiveData<List<MovieModel>>
-
-
-    @Query("SELECT EXISTS(SELECT 1 from movie_table WHERE id=:movieId)")
-    fun checkIsFavoriteMovie(movieId: Int): LiveData<Boolean>
-
+    @Query("SELECT  EXISTS (SELECT 1 from movie_table WHERE id=:movieId)")
+    fun checkFavorite(movieId: Int): Boolean
 }

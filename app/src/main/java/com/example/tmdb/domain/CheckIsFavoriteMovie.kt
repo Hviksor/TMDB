@@ -8,7 +8,7 @@ import com.example.tmdb.domain.model.MovieModel
 import retrofit2.Response
 
 class CheckIsFavoriteMovie(private val repo: MovieRepositoryImpl) {
-    suspend fun checkIsFavoriteMovie(movieId: Int, db: RoomRepositoryImpl): LiveData<Boolean> {
+    suspend fun checkIsFavoriteMovie(movieId: Int, db: RoomRepositoryImpl): Boolean {
         return repo.checkIsFavoriteMovie(movieId, db)
     }
 }

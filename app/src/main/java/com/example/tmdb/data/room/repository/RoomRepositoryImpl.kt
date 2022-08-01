@@ -9,20 +9,15 @@ class RoomRepositoryImpl(private val dao: MovieDao) : RoomRepository {
         dao.insert(movieModel)
         onSuccess
     }
-
     override suspend fun deleteFavoriteMovie(movieModel: MovieModel, onSuccess: () -> Unit) {
         dao.delete(movieModel)
         onSuccess
     }
-
-//    override val allMovie: LiveData<List<MovieModel>>
-//        get() = dao.getAllMovie()
-
     override suspend fun getAllFavoriteMovies(): LiveData<List<MovieModel>> {
-        return dao.getAllMovie()
+        return dao.getFavoriteMovieList()
+    }
+    override suspend fun checkIsFavoriteMovie(movieId: Int): Boolean {
+        return dao.checkFavorite(movieId)
     }
 
-    override suspend fun checkIsFavoriteMovie(movieId: Int): LiveData<Boolean> {
-        return dao.checkIsFavoriteMovie(movieId)
-    }
 }

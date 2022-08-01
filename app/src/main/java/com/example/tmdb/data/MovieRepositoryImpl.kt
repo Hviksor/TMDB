@@ -13,8 +13,12 @@ object MovieRepositoryImpl : MovieRepository {
         db.addFavoriteMovie(movieModel) {}
     }
 
-    override suspend fun checkIsFavoriteMovie(movieId: Int, db: RoomRepositoryImpl): LiveData<Boolean> {
+    override suspend fun checkIsFavoriteMovie(movieId: Int, db: RoomRepositoryImpl): Boolean {
         return db.checkIsFavoriteMovie(movieId)
+    }
+
+    override suspend fun getFavoriteMovieListUseCase(db: RoomRepositoryImpl) {
+        db.getAllFavoriteMovies()
     }
 
     override suspend fun deleteFavoriteMovie(movieModel: MovieModel, db: RoomRepositoryImpl) {
@@ -25,14 +29,6 @@ object MovieRepositoryImpl : MovieRepository {
         return RetrofitInstance.api.getSingleMovieInfo(movieId = movieId)
     }
 
-//    override fun getMovieFavoriteList(db: RoomRepositoryImpl): LiveData<List<MovieModel>> {
-//
-//        return db.allMovie
-//    }
-
-//    override suspend fun getMovieFavoriteList(db: MovieDao): LiveData<List<MovieModel>> {
-//        return db.getFavoriteMovieList()
-//    }
 
     override suspend fun getMovieListFromTMDB(): Response<TMDBInfo> {
         return RetrofitInstance.api.getTMDBInfo()

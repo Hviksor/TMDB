@@ -15,6 +15,7 @@ import com.example.tmdb.domain.model.MovieModel
 import com.example.tmdb.presentor.MainActivity
 import com.example.tmdb.presentor.MainViewModel
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DetailFragment : Fragment() {
@@ -27,7 +28,9 @@ class DetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        parsArgs()
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,15 +46,12 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
-        parseFields()
-
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        setHasOptionsMenu(true)
         initFields()
-
     }
 
-    private fun parseFields() {
+    private fun parsArgs() {
         val args = requireArguments()
         if (!args.containsKey(EXTRA_MOVIE_ID)) {
             throw RuntimeException("Movie ID is absent")
@@ -64,9 +64,9 @@ class DetailFragment : Fragment() {
 
     private fun initFields() {
         viewModel.viewModelScope.launch {
-            viewModel.getSingleMovieInformFromTMDBUseCase(movieId)
+            viewModel.getSingleMovieInfoFromTMDB(movieId)
         }
-        viewModel.singleMovieInformFromTMDBUseCase.observe(viewLifecycleOwner) {
+        viewModel.singleMovieInformation.observe(viewLifecycleOwner) {
             tempMovieModel = it
             binding.tvTitle.text = it.title
             binding.tvDescription.text = it.overview
@@ -81,13 +81,13 @@ class DetailFragment : Fragment() {
             isFavorite = if (isFavorite) {
                 binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
-                viewModel.viewModelScope.launch {
+                viewModel.viewModelScope.launch(Dispatchers.IO) {
                     viewModel.deleteFavoriteMovie(tempMovieModel)
                 }
                 false
             } else {
                 binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
-                viewModel.viewModelScope.launch {
+                viewModel.viewModelScope.launch(Dispatchers.IO) {
                     viewModel.addFavoriteMovie(tempMovieModel)
                 }
                 true
