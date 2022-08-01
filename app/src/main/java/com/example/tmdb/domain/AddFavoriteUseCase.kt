@@ -1,8 +1,6 @@
 package com.example.tmdb.domain
 
-import android.util.Log
 import com.example.tmdb.data.MovieRepositoryImpl
-import com.example.tmdb.data.room.dao.MovieDao
 import com.example.tmdb.data.room.repository.RoomRepositoryImpl
 import com.example.tmdb.domain.model.MovieModel
 

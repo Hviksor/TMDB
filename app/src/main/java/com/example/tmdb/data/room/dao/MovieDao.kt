@@ -1,6 +1,7 @@
 package com.example.tmdb.data.room.dao
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import androidx.room.Dao
 import com.example.tmdb.domain.model.MovieModel
@@ -13,9 +14,9 @@ interface MovieDao {
     @Delete
     fun delete(movieModel: MovieModel)
 
-    @Query("SELECT * from movie_table")
+    @Query("SELECT * FROM movie_table")
     fun getFavoriteMovieList(): LiveData<List<MovieModel>>
 
-    @Query("SELECT  EXISTS (SELECT 1 from movie_table WHERE id=:movieId)")
+    @Query("SELECT  EXISTS (SELECT 1 FROM movie_table WHERE id=:movieId)")
     fun checkFavorite(movieId: Int): Boolean
 }

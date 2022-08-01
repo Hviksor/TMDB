@@ -1,6 +1,7 @@
 package com.example.tmdb.domain
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.tmdb.data.room.MovieRoomDataBase
 import com.example.tmdb.data.room.dao.MovieDao
 import com.example.tmdb.data.room.repository.RoomRepositoryImpl
@@ -14,5 +15,5 @@ interface MovieRepository {
     suspend fun getMovieListFromTMDB(): Response<TMDBInfo>
     suspend fun addFavoriteMovie(movieModel: MovieModel, db: RoomRepositoryImpl)
     suspend fun checkIsFavoriteMovie(movieId: Int, db: RoomRepositoryImpl): Boolean
-    suspend fun getFavoriteMovieListUseCase(db: RoomRepositoryImpl)
+    fun getFavoriteMovieList(db: RoomRepositoryImpl): LiveData<List<MovieModel>>
 }

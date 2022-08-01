@@ -9,6 +9,7 @@ import com.example.tmdb.domain.model.TMDBInfo
 import retrofit2.Response
 
 object MovieRepositoryImpl : MovieRepository {
+
     override suspend fun addFavoriteMovie(movieModel: MovieModel, db: RoomRepositoryImpl) {
         db.addFavoriteMovie(movieModel) {}
     }
@@ -17,8 +18,8 @@ object MovieRepositoryImpl : MovieRepository {
         return db.checkIsFavoriteMovie(movieId)
     }
 
-    override suspend fun getFavoriteMovieListUseCase(db: RoomRepositoryImpl) {
-        db.getAllFavoriteMovies()
+    override fun getFavoriteMovieList(db: RoomRepositoryImpl): LiveData<List<MovieModel>> {
+        return db.allFavoriteMovies
     }
 
     override suspend fun deleteFavoriteMovie(movieModel: MovieModel, db: RoomRepositoryImpl) {
